@@ -12,49 +12,65 @@
 #include <sstream>
 #include <vector>
 #include <fstream>
+#include <limits>
 
 using namespace std;
 
 #define M 'M'
 #define T 'T'
+#define N 'X'
 
 /* T...Tomato, M...Mushroom, N...Taken */
 using Row = vector<char>;
 using Pizza = vector<Row>;
 
 /* slice format (x1,y1,x2,y2), start-end of solution slice */
-using Slice = array<int, 4>;
+using Slice    = array<int, 4>;
 using Solution = vector<Slice>;
 
 class Data {
 public:
    Data(int r, int c, int minI, int maxC, ifstream *infile):
       rows(r),columns(c),minIngrediant(minI),maxCells(maxC) {
+         minCells = (2 * minIngrediant);
+         pizza = new Pizza();
+         solution = new Solution();
          
          readPizzaInput(infile);
-         printPizza();
+         //printPizza();
+
+         pizzaCopy = new Pizza(*pizza);
    }
    
    ~Data() {
-      printSolution();
-      printPerformance();
+      delete pizza;
+      delete solution;
    }
    
    void runGreedy();
    
 private:
-   void readPizzaInput(ifstream *infile);
-   void greedySeach();
-   void computePossibleSlices();
+   /* algorithmic */
+   bool generateSlice(int x, int y, Slice *slice);
+   void removeSliceFromPizza(Slice *slice);
 
-   void printPizza();
-   void printPerformance();
-   void printSolution();
-
-   int rows, columns, minIngrediant, maxCells;
+   void transposePizzaFromCopy();
+   bool isValidCell(int x, int y);
+   bool isTomato(int x, int y);
+   bool isMushroom(int x, int y);
    
-   Pizza pizza;
-   Solution solution;
+   /* read input */
+   void readPizzaInput(ifstream *infile);
+
+   /* output, debug */
+   void printPizza();
+   void printSolution();
+   void printSlice(Slice slice);
+
+   int rows, columns, minIngrediant, maxCells, minCells;
+   
+   Pizza *pizza, *pizzaCopy;
+   Solution *solution, *solutionCopy;
 };
 
 #endif

@@ -34,7 +34,7 @@ void Data::printPerformance() {
 
 void Data::printSolution() {
    if(!solution.empty()) {
-      cout << "Found Slices: "
+      cout << "Found Slices: ";
       for(auto slice : solution) {
          cout << "[(" << slice[0] << ","   << slice[1] << ")],[("
                       << slice[2] << "),(" << slice[3] << ")] " << endl;

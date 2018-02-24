@@ -14,11 +14,7 @@ void Data::runGreedy() {
 void Data::printPizza() {
    for(auto row : pizza) {
       for(auto i : row) {
-         if(i) {
-            cout << "T";
-         } else {
-            cout << "M";
-         }
+         cout << i;
       }
       cout << endl;
    }
